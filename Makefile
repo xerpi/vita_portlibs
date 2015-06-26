@@ -31,11 +31,12 @@ ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.ta
 export PORTLIBS        := $(PSP2SDK)
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
 export CFLAGS          := -mcpu=cortex-a9 -mfpu=neon-fp16 -O3 \
-                          -I$(PSP2SDK)/include -L$(PSP2SDK)/lib \
-                          -mword-relocations -fomit-frame-pointer -ffast-math \
-                          -lc_stub
+                          -mword-relocations -fomit-frame-pointer -ffast-math
 export CPPFLAGS        := -I$(PORTLIBS)/include
 export LDFLAGS         := -L$(PORTLIBS)/lib
+
+LIBPNG_MAKE_QUIRKS := PROGRAMS= check_PROGRAMS=
+LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
 
 .PHONY: all old_all install install-zlib clean \
         $(FREETYPE) \
@@ -72,13 +73,13 @@ $(LIBJPEGTURBO): $(LIBJPEGTURBO_SRC)
 	@[ -d $(LIBJPEGTURBO_VERSION) ] || tar -xf $<
 	@cd $(LIBJPEGTURBO_VERSION) && \
 	 ./configure --prefix=$(PORTLIBS) --host=arm-none-eabi --disable-shared --enable-static
-	@$(MAKE) CFLAGS+="\"-Drandom()=rand()\"" -C $(LIBJPEGTURBO_VERSION)
+	@$(MAKE) CFLAGS+="\"-Drandom()=rand()\"" -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS)
 
 $(LIBPNG): $(LIBPNG_SRC)
 	@[ -d $(LIBPNG_VERSION) ] || tar -xf $<
 	@cd $(LIBPNG_VERSION) && \
 	 ./configure --prefix=$(PORTLIBS) --host=arm-none-eabi --disable-shared --enable-static
-	@$(MAKE) -C $(LIBPNG_VERSION)
+	@$(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS)
 
 # sqlite won't work with -ffast-math
 $(SQLITE): $(SQLITE_SRC)
@@ -119,8 +120,8 @@ install-zlib:
 install:
 	@[ ! -d $(FREETYPE_VERSION) ] || $(MAKE) -C $(FREETYPE_VERSION) install
 	@[ ! -d $(LIBEXIF_VERSION) ] || $(MAKE) -C $(LIBEXIF_VERSION) install
-	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) install
-	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) install
+	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data
+	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data
 	@[ ! -d $(SQLITE_VERSION) ] || $(MAKE) -C $(SQLITE_VERSION) install-libLTLIBRARIES install-data
 
 clean:
