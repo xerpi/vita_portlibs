@@ -120,8 +120,8 @@ install-zlib:
 install:
 	@[ ! -d $(FREETYPE_VERSION) ] || $(MAKE) -C $(FREETYPE_VERSION) install
 	@[ ! -d $(LIBEXIF_VERSION) ] || $(MAKE) -C $(LIBEXIF_VERSION) install
-	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data
-	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data
+	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am
+	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am install-exec-hook
 	@[ ! -d $(SQLITE_VERSION) ] || $(MAKE) -C $(SQLITE_VERSION) install-libLTLIBRARIES install-data
 
 clean:
