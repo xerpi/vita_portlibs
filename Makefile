@@ -30,11 +30,12 @@ ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.ta
 
 export PORTLIBS        := $(PSP2SDK)
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
-export CFLAGS          := -mcpu=cortex-a9 -mfpu=neon-fp16 -O3 \
+export CFLAGS          := -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -ftree-vectorize -O3 \
                           -mword-relocations -fomit-frame-pointer -ffast-math
 export CPPFLAGS        := -I$(PORTLIBS)/include
 export LDFLAGS         := -L$(PORTLIBS)/lib
 
+# avoid building examples
 LIBPNG_MAKE_QUIRKS := PROGRAMS= check_PROGRAMS=
 LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
 
@@ -93,7 +94,8 @@ $(ZLIB): $(ZLIB_SRC)
 	@[ -d $(ZLIB_VERSION) ] || tar -xf $<
 	@cd $(ZLIB_VERSION) && \
 	 CHOST=arm-none-eabi ./configure --static --prefix=$(PORTLIBS)
-	@$(MAKE) -C $(ZLIB_VERSION)
+	 # avoid building zlib examples
+	@$(MAKE) -C $(ZLIB_VERSION) libz.a
 
 # Downloads
 $(ZLIB_SRC):
