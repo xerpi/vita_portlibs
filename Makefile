@@ -73,8 +73,8 @@ $(LIBEXIF): $(LIBEXIF_SRC)
 $(LIBJPEGTURBO): $(LIBJPEGTURBO_SRC)
 	@[ -d $(LIBJPEGTURBO_VERSION) ] || tar -xf $<
 	@cd $(LIBJPEGTURBO_VERSION) && \
-	 ./configure --prefix=$(PORTLIBS) --host=arm-none-eabi --disable-shared --enable-static
-	@$(MAKE) CFLAGS+="\"-Drandom()=rand()\"" -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS)
+	 ./configure --prefix=$(PORTLIBS) --host=arm-none-eabi --disable-shared --enable-static --without-simd
+	@$(MAKE) CFLAGS='$(CFLAGS) -DNO_GETENV' -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS)
 
 $(LIBPNG): $(LIBPNG_SRC)
 	@[ -d $(LIBPNG_VERSION) ] || tar -xf $<
