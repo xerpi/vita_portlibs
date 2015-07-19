@@ -80,7 +80,7 @@ $(LIBPNG): $(LIBPNG_SRC)
 	@[ -d $(LIBPNG_VERSION) ] || tar -xf $<
 	@cd $(LIBPNG_VERSION) && \
 	 ./configure --prefix=$(PORTLIBS) --host=arm-none-eabi --disable-shared --enable-static
-	@$(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS)
+	@$(MAKE) CFLAGS='$(CFLAGS) -DPNG_NO_SETJMP' -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS)
 
 # sqlite won't work with -ffast-math
 $(SQLITE): $(SQLITE_SRC)
