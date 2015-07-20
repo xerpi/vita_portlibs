@@ -28,7 +28,7 @@ ZLIB_VERSION         := $(ZLIB)-1.2.8
 ZLIB_SRC             := $(ZLIB_VERSION).tar.gz
 ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz"
 
-export PORTLIBS        := $(PSP2SDK)
+export PORTLIBS        ?= $(PSP2SDK)
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
 export CFLAGS          := -specs=psp2.specs -mfloat-abi=softfp -ftree-vectorize -O3 \
                           -mword-relocations -fomit-frame-pointer -ffast-math
