@@ -46,7 +46,7 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBPNG) \
         $(SQLITE) \
         $(ZLIB)
-all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
+all: zlib freetype libexif libjpeg-turbo libpng sqlite install
 	@echo "Finished!"
 
 old_all:
@@ -110,7 +110,7 @@ $(LIBEXIF_SRC):
 $(LIBJPEGTURBO_SRC):
 	wget -O $@ $(LIBJPEGTURBO_DOWNLOAD)
 
-$(LIBPNG_SRC):
+$(LIBPNG_SRC): install-zlib
 	wget -O $@ $(LIBPNG_DOWNLOAD)
 
 $(SQLITE_SRC):
@@ -119,7 +119,7 @@ $(SQLITE_SRC):
 install-zlib:
 	@$(MAKE) -C $(ZLIB_VERSION) install
 
-install:
+install: install-zlib
 	@[ ! -d $(FREETYPE_VERSION) ] || $(MAKE) -C $(FREETYPE_VERSION) install
 	@[ ! -d $(LIBEXIF_VERSION) ] || $(MAKE) -C $(LIBEXIF_VERSION) install
 	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am
