@@ -28,9 +28,9 @@ ZLIB_VERSION         := $(ZLIB)-1.2.8
 ZLIB_SRC             := $(ZLIB_VERSION).tar.gz
 ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz"
 
-export PORTLIBS        := $(PSP2SDK)
+export PORTLIBS        ?= $(PSP2SDK)
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
-export CFLAGS          := -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -ftree-vectorize -O3 \
+export CFLAGS          := -specs=psp2.specs -mfloat-abi=softfp -ftree-vectorize -O3 \
                           -mword-relocations -fomit-frame-pointer -ffast-math
 export CPPFLAGS        := -I$(PORTLIBS)/include
 export LDFLAGS         := -L$(PORTLIBS)/lib
@@ -46,7 +46,7 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBPNG) \
         $(SQLITE) \
         $(ZLIB)
-all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
+all: zlib freetype libexif libjpeg-turbo libpng sqlite install
 	@echo "Finished!"
 
 old_all:
@@ -110,7 +110,7 @@ $(LIBEXIF_SRC):
 $(LIBJPEGTURBO_SRC):
 	wget -O $@ $(LIBJPEGTURBO_DOWNLOAD)
 
-$(LIBPNG_SRC):
+$(LIBPNG_SRC): install-zlib
 	wget -O $@ $(LIBPNG_DOWNLOAD)
 
 $(SQLITE_SRC):
@@ -119,7 +119,7 @@ $(SQLITE_SRC):
 install-zlib:
 	@$(MAKE) -C $(ZLIB_VERSION) install
 
-install:
+install: install-zlib
 	@[ ! -d $(FREETYPE_VERSION) ] || $(MAKE) -C $(FREETYPE_VERSION) install
 	@[ ! -d $(LIBEXIF_VERSION) ] || $(MAKE) -C $(LIBEXIF_VERSION) install
 	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am
