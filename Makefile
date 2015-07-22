@@ -99,22 +99,22 @@ $(ZLIB): $(ZLIB_SRC)
 
 # Downloads
 $(ZLIB_SRC):
-	wget -O $@ $(ZLIB_DOWNLOAD)
+	curl -o $@ -L $(ZLIB_DOWNLOAD)
 
 $(FREETYPE_SRC):
-	wget -O $@ $(FREETYPE_DOWNLOAD)
+	curl -o $@ -L $(FREETYPE_DOWNLOAD)
 
 $(LIBEXIF_SRC):
-	wget -O $@ $(LIBEXIF_DOWNLOAD)
+	curl -o $@ -L $(LIBEXIF_DOWNLOAD)
 
 $(LIBJPEGTURBO_SRC):
-	wget -O $@ $(LIBJPEGTURBO_DOWNLOAD)
+	curl -o $@ -L $(LIBJPEGTURBO_DOWNLOAD)
 
 $(LIBPNG_SRC): install-zlib
-	wget -O $@ $(LIBPNG_DOWNLOAD)
+	curl -o $@ -L $(LIBPNG_DOWNLOAD)
 
 $(SQLITE_SRC):
-	wget -O $@ $(SQLITE_DOWNLOAD)
+	curl -o $@ -L $(SQLITE_DOWNLOAD)
 
 install-zlib:
 	@$(MAKE) -C $(ZLIB_VERSION) install
