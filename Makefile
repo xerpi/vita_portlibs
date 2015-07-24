@@ -30,7 +30,7 @@ ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.ta
 
 export PORTLIBS        ?= $(PSP2SDK)
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
-export CFLAGS          := -specs=psp2.specs -mfloat-abi=softfp -ftree-vectorize -O3 \
+export CFLAGS          := -std=c99 -specs=psp2.specs -ftree-vectorize -O3 \
                           -mword-relocations -fomit-frame-pointer -ffast-math
 export CPPFLAGS        := -I$(PORTLIBS)/include
 export LDFLAGS         := -L$(PORTLIBS)/lib
