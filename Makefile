@@ -61,7 +61,7 @@ old_all:
 $(FREETYPE): $(FREETYPE_SRC)
 	@[ -d $(FREETYPE_VERSION) ] || tar -xf $<
 	@cd $(FREETYPE_VERSION) && \
-	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static --without-harfbuzz
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static --without-harfbuzz --without-bzip2
 	@$(MAKE) -C $(FREETYPE_VERSION)
 
 $(LIBEXIF): $(LIBEXIF_SRC)
