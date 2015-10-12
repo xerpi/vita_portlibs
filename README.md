@@ -19,7 +19,7 @@ You can build and install the libraries separately:
     $ make <targets>
     $ make install
 
-This will install the portlibs to `$PSP2SDK`. If this is a
+This will install the portlibs to `$VITASDK`. If this is a
 privileged location, you will need to `sudo make install-zlib` and `sudo make
 install` in order for the portlibs to be installed.
 
@@ -34,9 +34,9 @@ Currently supports the following portlibs:
 
 Download links:
 
-* [freetype-2.5.5.tar.bz2] (http://download.savannah.gnu.org/releases/freetype/freetype-2.5.5.tar.bz2)
-* [libexif-0.6.21.tar.bz2] (http://sourceforge.net/projects/libexif/files/libexif/0.6.21/libexif-0.6.21.tar.bz2/download)
-* [libjpeg-turbo-1.4.0.tar.gz] (http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-1.4.0.tar.gz/download)
-* [libpng-1.6.17.tar.xz] (http://prdownloads.sourceforge.net/libpng/libpng-1.6.17.tar.xz?download)
-* [sqlite-autoconf-3081002.tar.gz] (http://www.sqlite.org/2015/sqlite-autoconf-3081002.tar.gz)
-* [zlib-1.2.8.tar.gz] (http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz?download)
+* [freetype-2.6.1.tar.bz2] (http://sourceforge.net/projects/freetype/files/freetype2/2.6.1/freetype-2.6.1.tar.bz2)
+* [libexif-0.6.21.tar.bz2] (http://sourceforge.net/projects/libexif/files/libexif/0.6.21/libexif-0.6.21.tar.bz2)
+* [libjpeg-turbo-1.4.1.tar.gz] (http://sourceforge.net/projects/libjpeg-turbo/files/1.4.1/libjpeg-turbo-1.4.1.tar.gz)
+* [libpng-1.6.18.tar.xz] (http://sourceforge.net/projects/libpng/files/libpng16/1.6.18/libpng-1.6.18.tar.xz)
+* [sqlite-autoconf-3081101.tar.gz] (http://sqlite.org/2015/sqlite-autoconf-3081101.tar.gz)
+* [zlib-1.2.8.tar.xz] (http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.xz)
