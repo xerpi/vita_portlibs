@@ -1,7 +1,7 @@
 FREETYPE             := freetype
-FREETYPE_VERSION     := $(FREETYPE)-2.6
+FREETYPE_VERSION     := $(FREETYPE)-2.6.1
 FREETYPE_SRC         := $(FREETYPE_VERSION).tar.bz2
-FREETYPE_DOWNLOAD    := "http://download.savannah.gnu.org/releases/freetype/freetype-2.6.tar.bz2"
+FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.1/freetype-2.6.1.tar.bz2"
 
 LIBEXIF              := libexif
 LIBEXIF_VERSION      := $(LIBEXIF)-0.6.21
@@ -16,17 +16,17 @@ LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.
 LIBPNG               := libpng
 LIBPNG_VERSION       := $(LIBPNG)-1.6.18
 LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
-LIBPNG_DOWNLOAD      := "http://prdownloads.sourceforge.net/libpng/libpng-1.6.18.tar.xz"
+LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.18/libpng-1.6.18.tar.xz"
 
 SQLITE               := sqlite
-SQLITE_VERSION       := $(SQLITE)-autoconf-3081002
+SQLITE_VERSION       := $(SQLITE)-autoconf-3081101
 SQLITE_SRC           := $(SQLITE_VERSION).tar.gz
-SQLITE_DOWNLOAD      := "http://www.sqlite.org/2015/sqlite-autoconf-3081002.tar.gz"
+SQLITE_DOWNLOAD      := "http://sqlite.org/2015/sqlite-autoconf-3081101.tar.gz"
 
 ZLIB                 := zlib
 ZLIB_VERSION         := $(ZLIB)-1.2.8
-ZLIB_SRC             := $(ZLIB_VERSION).tar.gz
-ZLIB_DOWNLOAD        := "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz"
+ZLIB_SRC             := $(ZLIB_VERSION).tar.xz
+ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.xz"
 
 export PORTLIBS        ?= $(VITASDK)/arm-vita-eabi
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
