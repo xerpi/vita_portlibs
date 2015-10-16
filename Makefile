@@ -9,9 +9,9 @@ LIBEXIF_SRC          := $(LIBEXIF_VERSION).tar.bz2
 LIBEXIF_DOWNLOAD     := "http://sourceforge.net/projects/libexif/files/libexif/0.6.21/libexif-0.6.21.tar.bz2"
 
 LIBJPEGTURBO         := libjpeg-turbo
-LIBJPEGTURBO_VERSION := $(LIBJPEGTURBO)-1.4.1
+LIBJPEGTURBO_VERSION := $(LIBJPEGTURBO)-1.4.2
 LIBJPEGTURBO_SRC     := $(LIBJPEGTURBO_VERSION).tar.gz
-LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.4.1/libjpeg-turbo-1.4.1.tar.gz"
+LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.4.2/libjpeg-turbo-1.4.2.tar.gz"
 
 LIBPNG               := libpng
 LIBPNG_VERSION       := $(LIBPNG)-1.6.18
@@ -19,9 +19,9 @@ LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
 LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.18/libpng-1.6.18.tar.xz"
 
 SQLITE               := sqlite
-SQLITE_VERSION       := $(SQLITE)-autoconf-3081101
+SQLITE_VERSION       := $(SQLITE)-autoconf-3090100
 SQLITE_SRC           := $(SQLITE_VERSION).tar.gz
-SQLITE_DOWNLOAD      := "http://sqlite.org/2015/sqlite-autoconf-3081101.tar.gz"
+SQLITE_DOWNLOAD      := "http://sqlite.org/2015/sqlite-autoconf-3090100.tar.gz"
 
 ZLIB                 := zlib
 ZLIB_VERSION         := $(ZLIB)-1.2.8
