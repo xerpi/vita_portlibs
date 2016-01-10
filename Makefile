@@ -46,7 +46,7 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBPNG) \
         $(SQLITE) \
         $(ZLIB)
-all: zlib freetype libexif libjpeg-turbo libpng sqlite install
+all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
 	@echo "Finished!"
 
 old_all:
