@@ -1,7 +1,7 @@
 FREETYPE             := freetype
-FREETYPE_VERSION     := $(FREETYPE)-2.6.1
+FREETYPE_VERSION     := $(FREETYPE)-2.6.2
 FREETYPE_SRC         := $(FREETYPE_VERSION).tar.bz2
-FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.1/freetype-2.6.1.tar.bz2"
+FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2"
 
 LIBEXIF              := libexif
 LIBEXIF_VERSION      := $(LIBEXIF)-0.6.21
@@ -19,9 +19,9 @@ LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
 LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.18/libpng-1.6.18.tar.xz"
 
 SQLITE               := sqlite
-SQLITE_VERSION       := $(SQLITE)-autoconf-3090100
+SQLITE_VERSION       := $(SQLITE)-autoconf-3100000
 SQLITE_SRC           := $(SQLITE_VERSION).tar.gz
-SQLITE_DOWNLOAD      := "http://sqlite.org/2015/sqlite-autoconf-3090100.tar.gz"
+SQLITE_DOWNLOAD      := "http://sqlite.org/2016/sqlite-autoconf-3100000.tar.gz"
 
 ZLIB                 := zlib
 ZLIB_VERSION         := $(ZLIB)-1.2.8
@@ -46,7 +46,7 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBPNG) \
         $(SQLITE) \
         $(ZLIB)
-all: zlib freetype libexif libjpeg-turbo libpng sqlite install
+all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
 	@echo "Finished!"
 
 old_all:
