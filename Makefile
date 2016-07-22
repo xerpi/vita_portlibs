@@ -1,7 +1,7 @@
 FREETYPE             := freetype
-FREETYPE_VERSION     := $(FREETYPE)-2.6.2
+FREETYPE_VERSION     := $(FREETYPE)-2.6.5
 FREETYPE_SRC         := $(FREETYPE_VERSION).tar.bz2
-FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2"
+FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.5/freetype-2.6.5.tar.bz2"
 
 LIBEXIF              := libexif
 LIBEXIF_VERSION      := $(LIBEXIF)-0.6.21
@@ -9,14 +9,14 @@ LIBEXIF_SRC          := $(LIBEXIF_VERSION).tar.bz2
 LIBEXIF_DOWNLOAD     := "http://sourceforge.net/projects/libexif/files/libexif/0.6.21/libexif-0.6.21.tar.bz2"
 
 LIBJPEGTURBO         := libjpeg-turbo
-LIBJPEGTURBO_VERSION := $(LIBJPEGTURBO)-1.4.2
+LIBJPEGTURBO_VERSION := $(LIBJPEGTURBO)-1.5.0
 LIBJPEGTURBO_SRC     := $(LIBJPEGTURBO_VERSION).tar.gz
-LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.4.2/libjpeg-turbo-1.4.2.tar.gz"
+LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.5.0/libjpeg-turbo-1.5.0.tar.gz"
 
 LIBPNG               := libpng
-LIBPNG_VERSION       := $(LIBPNG)-1.6.21
+LIBPNG_VERSION       := $(LIBPNG)-1.6.23
 LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
-LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.21/libpng-1.6.21.tar.xz"
+LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.23/libpng-1.6.23.tar.xz"
 
 SQLITE               := sqlite
 SQLITE_VERSION       := $(SQLITE)-autoconf-3100000
