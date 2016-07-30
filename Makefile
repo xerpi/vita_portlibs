@@ -30,10 +30,13 @@ ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.8
 
 export PORTLIBS        ?= $(VITASDK)/arm-vita-eabi
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
-export CFLAGS          := -std=c99 -ftree-vectorize -O3 \
+export CFLAGS          := -std=c99 -ftree-vectorize -O3 -ffat-lto-objects -flto \
                           -mword-relocations -fomit-frame-pointer -ffast-math
 export CPPFLAGS        := -I$(PORTLIBS)/include
 export LDFLAGS         := -L$(PORTLIBS)/lib
+
+export AR              := arm-vita-eabi-gcc-ar
+export RANLIB          := arm-vita-eabi-gcc-ranlib
 
 # avoid building examples
 LIBPNG_MAKE_QUIRKS := PROGRAMS= check_PROGRAMS=
