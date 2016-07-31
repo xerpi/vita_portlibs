@@ -82,7 +82,7 @@ $(LIBJPEGTURBO): $(LIBJPEGTURBO_SRC)
 $(LIBPNG): $(LIBPNG_SRC)
 	@[ -d $(LIBPNG_VERSION) ] || tar -xf $<
 	@cd $(LIBPNG_VERSION) && \
-	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --enable-arm-neon --disable-shared --enable-static --disable-unversioned-links
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --enable-arm-neon --disable-shared --enable-static
 	@$(MAKE) CPPFLAGS='$(CPPFLAGS) -DPNG_NO_CONSOLE_IO' -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS)
 
 # sqlite won't work with -ffast-math
