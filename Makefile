@@ -1,7 +1,7 @@
 FREETYPE             := freetype
-FREETYPE_VERSION     := $(FREETYPE)-2.6.5
+FREETYPE_VERSION     := $(FREETYPE)-2.7.1
 FREETYPE_SRC         := $(FREETYPE_VERSION).tar.bz2
-FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.5/freetype-2.6.5.tar.bz2"
+FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.7.1/freetype-2.7.1.tar.bz2"
 
 LIBEXIF              := libexif
 LIBEXIF_VERSION      := $(LIBEXIF)-0.6.21
