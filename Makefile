@@ -28,6 +28,21 @@ ZLIB_VERSION         := $(ZLIB)-1.2.8
 ZLIB_SRC             := $(ZLIB_VERSION).tar.xz
 ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.xz"
 
+LIBOGG               := libogg
+LIBOGG_VERSION       := $(LIBOGG)-1.3.2
+LIBOGG_SRC           := $(LIBOGG_VERSION).tar.xz
+LIBOGG_DOWNLOAD      := "http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.xz"
+
+LIBVORBIS            := libvorbis
+LIBVORBIS_VERSION    := $(LIBVORBIS)-1.3.5
+LIBVORBIS_SRC        := $(LIBVORBIS_VERSION).tar.xz
+LIBVORBIS_DOWNLOAD   := "http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.5.tar.xz"
+
+FLAC                 := flac
+FLAC_VERSION         := $(FLAC)-1.3.2
+FLAC_SRC             := $(FLAC_VERSION).tar.xz
+FLAC_DOWNLOAD        := "http://downloads.xiph.org/releases/flac/flac-1.3.2.tar.xz"
+
 export PORTLIBS        ?= $(VITASDK)/arm-vita-eabi
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
 export CFLAGS          := -std=c99 -ftree-vectorize -O3 -ffat-lto-objects -flto \
@@ -48,8 +63,11 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBJPEGTURBO) \
         $(LIBPNG) \
         $(SQLITE) \
-        $(ZLIB)
-all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
+        $(ZLIB) \
+        $(LIBOGG) \
+        $(LIBVORBIS) \
+        $(FLAC)
+all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite libogg libvorbis flac install
 	@echo "Finished!"
 
 old_all:
@@ -60,6 +78,9 @@ old_all:
 	@echo "  $(LIBPNG) (requires zlib to be installed)"
 	@echo "  $(SQLITE)"
 	@echo "  $(ZLIB)"
+	@echo "  $(LIBOGG)"
+	@echo "  $(LIBVORBIS) (requires libogg to be installed)"
+	@echo "  $(FLAC) (requires libogg to be installed)"
 
 $(FREETYPE): $(FREETYPE_SRC)
 	@[ -d $(FREETYPE_VERSION) ] || tar -xf $<
@@ -100,6 +121,29 @@ $(ZLIB): $(ZLIB_SRC)
 	 # avoid building zlib examples
 	@$(MAKE) -C $(ZLIB_VERSION) libz.a
 
+$(LIBOGG): $(LIBOGG_SRC)
+	@[ -d $(LIBOGG_VERSION) ] || tar -xf $<
+	@cd $(LIBOGG_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	@$(MAKE) -C $(LIBOGG_VERSION)
+
+$(LIBVORBIS): $(LIBVORBIS_SRC)
+	@[ -d $(LIBVORBIS_VERSION) ] || tar -xf $<
+	@cd $(LIBVORBIS_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	@$(MAKE) -C $(LIBVORBIS_VERSION)/lib
+	@$(MAKE) -C $(LIBVORBIS_VERSION)/include
+
+$(FLAC): $(FLAC_SRC)
+	@[ -d $(FLAC_VERSION) ] || tar -xf $<
+	@cd $(FLAC_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	 # fix <memory.h> header include
+	 sed -ie 's/#include <memory.h>/\/\/#include <memory.h>/g' $(FLAC_VERSION)/src/libFLAC/cpu.c
+	 # avoid building flac examples
+	@$(MAKE) -C $(FLAC_VERSION)/src/libFLAC
+	@$(MAKE) -C $(FLAC_VERSION)/include
+
 # Downloads
 $(ZLIB_SRC):
 	curl -o $@ -L $(ZLIB_DOWNLOAD)
@@ -119,6 +163,15 @@ $(LIBPNG_SRC): install-zlib
 $(SQLITE_SRC):
 	curl -o $@ -L $(SQLITE_DOWNLOAD)
 
+$(LIBOGG_SRC):
+	curl -o $@ -L $(LIBOGG_DOWNLOAD)
+
+$(LIBVORBIS_SRC):
+	curl -o $@ -L $(LIBVORBIS_DOWNLOAD)
+
+$(FLAC_SRC):
+	curl -o $@ -L $(FLAC_DOWNLOAD)
+
 install-zlib:
 	@$(MAKE) -C $(ZLIB_VERSION) install
 
@@ -128,6 +181,9 @@ install: install-zlib
 	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am
 	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am install-exec-hook
 	@[ ! -d $(SQLITE_VERSION) ] || $(MAKE) -C $(SQLITE_VERSION) install-libLTLIBRARIES install-data
+	@[ ! -d $(LIBOGG_VERSION) ] || $(MAKE) -C $(LIBOGG_VERSION) install
+	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/lib install && $(MAKE) -C $(LIBVORBIS_VERSION)/include install
+	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/src/libFLAC install && $(MAKE) -C $(FLAC_VERSION)/include install
 
 clean:
 	@$(RM) -r $(FREETYPE_VERSION)
@@ -136,3 +192,6 @@ clean:
 	@$(RM) -r $(LIBPNG_VERSION)
 	@$(RM) -r $(SQLITE_VERSION)
 	@$(RM) -r $(ZLIB_VERSION)
+	@$(RM) -r $(LIBOGG_VERSION)
+	@$(RM) -r $(LIBVORBIS_VERSION)
+	@$(RM) -r $(FLAC_VERSION)
