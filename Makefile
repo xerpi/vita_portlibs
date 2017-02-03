@@ -1,7 +1,7 @@
 FREETYPE             := freetype
-FREETYPE_VERSION     := $(FREETYPE)-2.6.5
+FREETYPE_VERSION     := $(FREETYPE)-2.7.1
 FREETYPE_SRC         := $(FREETYPE_VERSION).tar.bz2
-FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.6.5/freetype-2.6.5.tar.bz2"
+FREETYPE_DOWNLOAD    := "http://sourceforge.net/projects/freetype/files/freetype2/2.7.1/freetype-2.7.1.tar.bz2"
 
 LIBEXIF              := libexif
 LIBEXIF_VERSION      := $(LIBEXIF)-0.6.21
@@ -14,9 +14,9 @@ LIBJPEGTURBO_SRC     := $(LIBJPEGTURBO_VERSION).tar.gz
 LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.5.0/libjpeg-turbo-1.5.0.tar.gz"
 
 LIBPNG               := libpng
-LIBPNG_VERSION       := $(LIBPNG)-1.6.25
+LIBPNG_VERSION       := $(LIBPNG)-1.6.28
 LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
-LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.25/libpng-1.6.25.tar.xz"
+LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.28/libpng-1.6.28.tar.xz"
 
 SQLITE               := sqlite
 SQLITE_VERSION       := $(SQLITE)-autoconf-3100000
@@ -24,9 +24,24 @@ SQLITE_SRC           := $(SQLITE_VERSION).tar.gz
 SQLITE_DOWNLOAD      := "http://sqlite.org/2016/sqlite-autoconf-3100000.tar.gz"
 
 ZLIB                 := zlib
-ZLIB_VERSION         := $(ZLIB)-1.2.8
+ZLIB_VERSION         := $(ZLIB)-1.2.11
 ZLIB_SRC             := $(ZLIB_VERSION).tar.xz
-ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.xz"
+ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.xz"
+
+LIBOGG               := libogg
+LIBOGG_VERSION       := $(LIBOGG)-1.3.2
+LIBOGG_SRC           := $(LIBOGG_VERSION).tar.xz
+LIBOGG_DOWNLOAD      := "http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.xz"
+
+LIBVORBIS            := libvorbis
+LIBVORBIS_VERSION    := $(LIBVORBIS)-1.3.5
+LIBVORBIS_SRC        := $(LIBVORBIS_VERSION).tar.xz
+LIBVORBIS_DOWNLOAD   := "http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.5.tar.xz"
+
+FLAC                 := flac
+FLAC_VERSION         := $(FLAC)-1.3.2
+FLAC_SRC             := $(FLAC_VERSION).tar.xz
+FLAC_DOWNLOAD        := "http://downloads.xiph.org/releases/flac/flac-1.3.2.tar.xz"
 
 export PORTLIBS        ?= $(VITASDK)/arm-vita-eabi
 export PKG_CONFIG_PATH := $(PORTLIBS)/lib/pkgconfig
@@ -48,8 +63,12 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBJPEGTURBO) \
         $(LIBPNG) \
         $(SQLITE) \
-        $(ZLIB)
-all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite install
+        $(ZLIB) \
+        $(LIBOGG) \
+        $(LIBVORBIS) \
+        $(FLAC)
+
+all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite libogg libvorbis flac install
 	@echo "Finished!"
 
 old_all:
@@ -60,6 +79,9 @@ old_all:
 	@echo "  $(LIBPNG) (requires zlib to be installed)"
 	@echo "  $(SQLITE)"
 	@echo "  $(ZLIB)"
+	@echo "  $(LIBOGG)"
+	@echo "  $(LIBVORBIS) (requires libogg to be installed)"
+	@echo "  $(FLAC) (requires libogg to be installed)"
 
 $(FREETYPE): $(FREETYPE_SRC)
 	@[ -d $(FREETYPE_VERSION) ] || tar -xf $<
@@ -100,6 +122,29 @@ $(ZLIB): $(ZLIB_SRC)
 	 # avoid building zlib examples
 	@$(MAKE) -C $(ZLIB_VERSION) libz.a
 
+$(LIBOGG): $(LIBOGG_SRC)
+	@[ -d $(LIBOGG_VERSION) ] || tar -xf $<
+	@cd $(LIBOGG_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	@$(MAKE) -C $(LIBOGG_VERSION)
+
+$(LIBVORBIS): $(LIBVORBIS_SRC)
+	@[ -d $(LIBVORBIS_VERSION) ] || tar -xf $<
+	@cd $(LIBVORBIS_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	@$(MAKE) -C $(LIBVORBIS_VERSION)/lib
+	@$(MAKE) -C $(LIBVORBIS_VERSION)/include
+
+$(FLAC): $(FLAC_SRC)
+	@[ -d $(FLAC_VERSION) ] || tar -xf $<
+	@cd $(FLAC_VERSION) && \
+	 ./configure --prefix=$(PORTLIBS) --host=arm-vita-eabi --disable-shared --enable-static
+	 # fix <memory.h> header include
+	 sed -ie 's/#include <memory.h>/\/\/#include <memory.h>/g' $(FLAC_VERSION)/src/libFLAC/cpu.c
+	 # avoid building flac examples
+	@$(MAKE) -C $(FLAC_VERSION)/src/libFLAC
+	@$(MAKE) -C $(FLAC_VERSION)/include
+
 # Downloads
 $(ZLIB_SRC):
 	curl -o $@ -L $(ZLIB_DOWNLOAD)
@@ -119,6 +164,15 @@ $(LIBPNG_SRC): install-zlib
 $(SQLITE_SRC):
 	curl -o $@ -L $(SQLITE_DOWNLOAD)
 
+$(LIBOGG_SRC):
+	curl -o $@ -L $(LIBOGG_DOWNLOAD)
+
+$(LIBVORBIS_SRC):
+	curl -o $@ -L $(LIBVORBIS_DOWNLOAD)
+
+$(FLAC_SRC):
+	curl -o $@ -L $(FLAC_DOWNLOAD)
+
 install-zlib:
 	@$(MAKE) -C $(ZLIB_VERSION) install
 
@@ -128,6 +182,11 @@ install: install-zlib
 	@[ ! -d $(LIBJPEGTURBO_VERSION) ] || $(MAKE) -C $(LIBJPEGTURBO_VERSION) $(LIBJPEGTURBO_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am
 	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am install-exec-hook
 	@[ ! -d $(SQLITE_VERSION) ] || $(MAKE) -C $(SQLITE_VERSION) install-libLTLIBRARIES install-data
+	@[ ! -d $(LIBOGG_VERSION) ] || $(MAKE) -C $(LIBOGG_VERSION) install
+	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/lib install
+	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/include install
+	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/src/libFLAC install
+	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/include install
 
 clean:
 	@$(RM) -r $(FREETYPE_VERSION)
@@ -136,3 +195,6 @@ clean:
 	@$(RM) -r $(LIBPNG_VERSION)
 	@$(RM) -r $(SQLITE_VERSION)
 	@$(RM) -r $(ZLIB_VERSION)
+	@$(RM) -r $(LIBOGG_VERSION)
+	@$(RM) -r $(LIBVORBIS_VERSION)
+	@$(RM) -r $(FLAC_VERSION)
