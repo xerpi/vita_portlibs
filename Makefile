@@ -14,9 +14,9 @@ LIBJPEGTURBO_SRC     := $(LIBJPEGTURBO_VERSION).tar.gz
 LIBJPEGTURBO_DOWNLOAD := "http://sourceforge.net/projects/libjpeg-turbo/files/1.5.0/libjpeg-turbo-1.5.0.tar.gz"
 
 LIBPNG               := libpng
-LIBPNG_VERSION       := $(LIBPNG)-1.6.25
+LIBPNG_VERSION       := $(LIBPNG)-1.6.28
 LIBPNG_SRC           := $(LIBPNG_VERSION).tar.xz
-LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.25/libpng-1.6.25.tar.xz"
+LIBPNG_DOWNLOAD      := "http://sourceforge.net/projects/libpng/files/libpng16/1.6.28/libpng-1.6.28.tar.xz"
 
 SQLITE               := sqlite
 SQLITE_VERSION       := $(SQLITE)-autoconf-3100000
@@ -24,9 +24,9 @@ SQLITE_SRC           := $(SQLITE_VERSION).tar.gz
 SQLITE_DOWNLOAD      := "http://sqlite.org/2016/sqlite-autoconf-3100000.tar.gz"
 
 ZLIB                 := zlib
-ZLIB_VERSION         := $(ZLIB)-1.2.8
+ZLIB_VERSION         := $(ZLIB)-1.2.11
 ZLIB_SRC             := $(ZLIB_VERSION).tar.xz
-ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.xz"
+ZLIB_DOWNLOAD        := "http://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.xz"
 
 LIBOGG               := libogg
 LIBOGG_VERSION       := $(LIBOGG)-1.3.2
@@ -67,6 +67,7 @@ LIBJPEGTURBO_MAKE_QUIRKS := PROGRAMS=
         $(LIBOGG) \
         $(LIBVORBIS) \
         $(FLAC)
+
 all: zlib install-zlib freetype libexif libjpeg-turbo libpng sqlite libogg libvorbis flac install
 	@echo "Finished!"
 
@@ -182,8 +183,10 @@ install: install-zlib
 	@[ ! -d $(LIBPNG_VERSION) ] || $(MAKE) -C $(LIBPNG_VERSION) $(LIBPNG_MAKE_QUIRKS) install-libLTLIBRARIES install-data-am install-exec-hook
 	@[ ! -d $(SQLITE_VERSION) ] || $(MAKE) -C $(SQLITE_VERSION) install-libLTLIBRARIES install-data
 	@[ ! -d $(LIBOGG_VERSION) ] || $(MAKE) -C $(LIBOGG_VERSION) install
-	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/lib install && $(MAKE) -C $(LIBVORBIS_VERSION)/include install
-	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/src/libFLAC install && $(MAKE) -C $(FLAC_VERSION)/include install
+	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/lib install
+	@[ ! -d $(LIBVORBIS_VERSION) ] || $(MAKE) -C $(LIBVORBIS_VERSION)/include install
+	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/src/libFLAC install
+	@[ ! -d $(FLAC_VERSION) ] || $(MAKE) -C $(FLAC_VERSION)/include install
 
 clean:
 	@$(RM) -r $(FREETYPE_VERSION)
