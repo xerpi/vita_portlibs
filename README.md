@@ -1,3 +1,8 @@
+Vita Portlibs is obsolete, use install-all.sh of [vdpm](https://github.com/vitasdk/vdpm) instead.
+============
+
+
+
 Vita Portlibs
 ============
 
